@@ -4,8 +4,7 @@ from optparse import Option
 from pickle import APPEND
 import gspread
 import pandas as pd
-from datetime import timedelta
-from datetime import date 
+from datetime import date ,timedelta ,datetime
 
 gc = gspread.service_account(filename='logistica5-tableros-cbcc5f8d90e6.json')
     # Abrir por titulo
@@ -34,16 +33,25 @@ class Checker():
       variableFloat=str(input("Ingrese la cantidad en flotante: "))
       return self.checkerFloat(variableFloat)
   
-  def checkerFecha(self,strVariable):
-    try:
-      variableFloat=int(strVariable)
-      return variableFloat
-    except:
-      print("El valor debe ser flotante")
-
-      variableFloat=str(input("Ingrese la cantidad en flotante"))
-      return self.checkerFloat(variableFloat)
-
+  def checkerOrdenFecha(self,re1,re2,df,keyDF):
+    newDate=[]
+    # "%Y-%m-%d"  and "&d/%m/&Y"
+    for value in df[keyDF]:
+      
+    
+      try:
+        value
+        
+        fecha_cadena = value
+        fecha = datetime.strptime(fecha_cadena, re1) 
+        #fecha1=str(fecha)
+      
+        fecha1=datetime.strftime(fecha,re2)
+        newDate.append(fecha1)
+      except:
+        newDate.append(value)
+    df[keyDF]=newDate
+    return df
 
   def checkerOptionExists(self,listToChecker,option):
     option=self.checkerInt(option)
@@ -56,9 +64,7 @@ class Checker():
       option=str  (input("Ingrese una opción valida: "))
       return self.checkerOptionExists(listToChecker,option)
       
-  def checkFilNoEMT(self, listEmty):
-    for i in range (listEmty):
-      pass
+
     
 
 class Segmento():
@@ -89,8 +95,7 @@ class Segmento():
 
 class Desde():
   
-  def printUnidad(self):
-    print("DD/MM/AAAA")
+  
 
 
   def capDesde(self,newData,questionsList):
@@ -103,7 +108,8 @@ class Desde():
   def returnDesde(self,newData,questionsList):
     
     newData['Desde']=self.capDesde(newData,questionsList)
-    
+ 
+
     
     return newData
 
@@ -280,12 +286,19 @@ class File():
      self.name=name
 
   def retunrData(self):
-    global worksheet
+    che=Checker()
     sh = gc.open(self.name) 
     worksheet = sh.get_worksheet(0)
     list_of_lists = worksheet.get_all_values()
     df = pd.DataFrame(list_of_lists[1:], columns =list_of_lists[0])
     df.index.name="Clave"
+    print(df)
+
+    #df=che.checkerOrdenFecha("%d/%m/%y","%d/%m/%Y",df,"Hasta")
+
+     
+    #df = df.sort_values(["Desde"])
+    #worksheet.update([df.columns.values.tolist()] + df.values.tolist())
     return df
 
 
@@ -678,6 +691,22 @@ class Formula():
     periodo=dataDesde+"AL"+dataHasta
   
     return periodo
+  
+  def payDate(self,estatus): 
+    
+   
+    if estatus=="Recuperada - Liquidada":
+    today = datetime.now()
+    todayPay=datetime.strptime(str(today.date()),'%Y-%m-%d')
+    todayPay=datetime.strftime(today.date(),'%d/%m/%Y')
+
+    print ("Se liquido el día: ",todayPay)
+
+  
+
+    
+
+    
 
   
 
