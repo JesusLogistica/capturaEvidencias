@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "logistica5-tableros",
+  "private_key_id": "cbcc5f8d90e6543ca606261999cb58d170435f86",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCorS/O4RstURFx\nE55StvzhD95BqygqhApnI6GhK8Wt1/sznNeZW01e/o2sIVg+fuQiX49kRJ4zXs0o\n3Y+xe0biPOiL00jOL3cC0D7G/B8TLj3Fiuzp8pMOozFCnRGFTUd+kVHOl+Ed5alN\n7f/yZvhNAwzOUFbOXPK3y67Rm5dG/KRE+5BppR+MF5ansG8F+7te3IuNoqIh/DxU\nYZtxFT401DDhIAjzO2jtZHcunyzCMr71img1dq2OzOaaWC1CW+Rt7cho4PpOKYIr\nHCeelIRzxYlSDFCC0SOYWn9+jc14tyihU4AeGdx+nSX9JkDkXGVWcS4SRXwsfDgJ\nUbhX8FqzAgMBAAECggEAUuKnd3VOMXqAo5wMVIDuynlNsd81IY84vW3Y4qXrwX08\nRyRvHUCsSF21qDvKbQtVdz6V66N8SanwDoCxN3loX4umie8M+6R/Srah4o3Jh1dV\nq1iVCnDUqoCumBkunt5Wn28xT996E4LjKxQkjSzkHpO9GzSHM2ihLIe+I+nc8Fgw\n5W0BFjR6MjtHqXBgmr0PuYvaTAEPhwkPDmLJdgeJaxMQlL3kICO83zOHGpi7Ild+\nEEifWCJxXtHBJe3ehZHPiEVoFxV65GiN5SX6MkXBLV8CRrZjpKrhApgCNdhxNkqf\nBZMSUrbl9F3hnj+MZCd+6ivHyMtHfVc+sQGzJp9NwQKBgQDVQnUS6yXdge4Dqqzg\nJ0Cny0E2CdBRmVJk5ct0UplwyYxhVwgE7NKJF+iWHpG2j+cVTJfAg7dKpA5QV3Pn\n46xj6QpHfmPinX88cVyCGpaCKSPqcTMx4BdlpP2F+EjCaUxGFP5LNbVcoFrtIfO8\nwa9X7wRS5N5U9IE6ckBmT4s12wKBgQDKe1cHV3gp+rqeTW3O8thfvf70yehq3Hn4\nUJZH/bFSV8DNWNH1ms8H8FFQ6KAQtPYoFnfbW+F2DIUpS2Ot3Df3nX4JGZFlMmcI\n2h6I7YcfjU8LvRIlMYHUOpS9oqzmkSbcL+nL1dhU6nhbazrTeNj4yT567CFrYxuM\n/nAC80tCCQKBgHgr5NDuVP4HM1o5mQUO2W40KOEMkqkIntdgbk90JCbcTBCl/Eza\nLqE2Kcg+HZokaPElofXHw0d6Pt6jCRtIvmHmdfZnkF2opoQm1RwzY1ChYi2/8DtQ\nrZ6HZJ1TlZyHvYVYWxuCflpduh8aHMDm26nPdD5J3cc9qHyI2SVN+YI1AoGBAKSa\nghRQ0jnmPyGDtnnfR3EFxqb/ILcGhw0Lji/2F9nlxrHou76a3CULAz/v7HfIdLgA\nE+26kt3hrbr1M5JaDRF58cS6CU2oHMTAdMRBvHA08waK7J5Z0b5S5SoIfeBuLZYg\nSULQlC3r8m33DPpvKouNJgLNxRlEl1gWW766Q/rpAoGBAKZcyWwZ3eBOb6MRnAGL\n6jCDopavsRMoAcQKUZ5hRZiJEL2CO6Jaz0iGbdUbsMdjW9Wn83QxixrM7o8y257u\nYh811ppWDOUQFhQ4Jp+rOwupkBFHMAlq/tbGaegFy4YeOPh6TjPHa/PJJWyAeYw6\nL13nND4I29+KBP0Jx4UxCSnj\n-----END PRIVATE KEY-----\n",
+  "client_email": "drivelogistica5-441@logistica5-tableros.iam.gserviceaccount.com",
+  "client_id": "100911931779761454441",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/drivelogistica5-441%40logistica5-tableros.iam.gserviceaccount.com"
+}
