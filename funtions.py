@@ -1,7 +1,5 @@
 
-from ast import Return
-from optparse import Option
-from pickle import APPEND
+
 import gspread
 import pandas as pd
 from datetime import date ,timedelta ,datetime
@@ -135,10 +133,21 @@ class Unidad():
   def captUnidad(self,dict,listPrint):
     print(listPrint[2])
     che=Checker()
+    estatuList=["1.- T-01","7.- T-07","13.- T-13","19.- T-19",
+      "2.- T-02","8.- T-08","14.- T-14","20.- T-20",
+      "3.- T-03","9.- T-09","15.- T-15","21.- T-21",
+      "4.- T-04","10.- T-10","16.- T-16","22.- T-22",
+      "5.- T-05","11.- T-11","17.- T-17","23.- T-23",
+      "6.- T-06","12.- T-12","18.- T-18","24.- T-24",
+      "25.- T-25","31.- T-31","37.- T-37","26.- T-26",
+      "32.- T-32","38.- T-38","27.- T-27","33.- T-33",
+      "39.- T-39","28.- T-28","34.- T-34","40.- T-40", "29.- T-29",
+      "35.- T-35","41.- T-41","30.- T-30","36.- T-36","42.- T-42"]
+
     
     self.printUnidad()
     self.unid=str(input())
-    self.unidad=che.checkerInt(self.unid)
+    self.unidad=che.checkerOptionExists(estatuList,self.unid)
     self.unid='T-'+str(self.unid)
     
     
@@ -202,7 +211,7 @@ class CP():
     
 
     print(list[4])
-    dict['CP']=self.captCP(dict,list)
+    dict['Carta porte']=self.captCP(dict,list)
 
     return dict
     
@@ -245,7 +254,8 @@ class Estatus():
     print("1.- Pendiente\n\r2.- Recuperada - En Liquidación\n\r3.- Recuperada - Liquidada\n\r","4.- En Devolución\n\r 5.- Aclaración - Faltante",
     "\n\r6.- Aclaración - Códigos Combinados\n\r7.- Aclaración - Otros\n\r8.- Pendiente por manhattan")
   
-  def captEstatus(self,dict,list):
+  def captEstatus(self,dict_,list):
+    fEL=fechaEntregaLiquida()
     print(list[9]) 
     self.printEstatus()
     che=Checker()
@@ -254,13 +264,13 @@ class Estatus():
     "Aclaración - Códigos Combinados","Aclaración - Otros","Pendiente por manhattan"]
     self.esta=str(input())
     self.esta=che.checkerOptionExists(estatuList,self.esta)
-    return estatuList[self.esta]
+    return estatuList[self.esta],dict_
 
 
   def returnEstatus(self,dict,list):
-   
-
-    dict['Estatus']=self.captEstatus(dict,list)
+    capto,dict=self.captEstatus(dict,list)
+    
+    dict['Estatus']=capto
     
     return dict
 
@@ -387,6 +397,7 @@ class Situacion():
    
 
 class Seguimiento():
+
   def __init__(self,segui=int(0)):
     self.segui=segui
   
@@ -440,16 +451,16 @@ class Herdez():
   
 
 class fechaEntregaLiquida():
-  def captEL(self,dict,list):
-    print(list[12])
+  def captLiqui(self,dict_):
+    form=Formula()
+    estatus=dict_.iloc[12]
+    todayPay=form.payDate(estatus["Estatus"])
+   
+    return todayPay
 
-    entLiqui=str(input())
-    return entLiqui
-
-  def returnManhattan(self,dict,list):
-
+  def returnLiqui(self,dict):
     
-    dict['Fecha de entrega de liquidación']=self.captEL(dict,list)
+    dict['Fecha de entrega de liquidación']=self.captLiqui(dict)
     
     return dict
 
@@ -486,7 +497,7 @@ class Edition():
     listEdition=[]
     uniObj=Unidad()
     estaObj=Estatus()
-    
+    liquiObj=fechaEntregaLiquida()
 
     cpObj=CP()
     consigObj=Consigna()
@@ -535,7 +546,7 @@ class Edition():
     listEdition.append(rowEdit.iloc[8])
     listEdition.append(rowEdit.iloc[9])
     
-    estatu=estaObj.captEstatus(dato,questionsList)
+    estatu,_=estaObj.captEstatus(dato,questionsList)
     if estatu!="":
       listEdition.append(estatu)
     else :
@@ -549,7 +560,14 @@ class Edition():
       listEdition.append(rowEdit.iloc[11])
     
     listEdition.append(rowEdit.iloc[12])
-    listEdition.append(rowEdit.iloc[13])
+    liq=liquiObj.captLiqui(dato)
+    if str(rowEdit.iloc[13])!= liq:
+      listEdition.append(liq)
+
+    else:
+      listEdition.append(rowEdit.iloc[13])
+
+    
     listEdition.append(rowEdit.iloc[14])
     listEdition.append(rowEdit.iloc[15])
     listEdition.append(rowEdit.iloc[16])
@@ -562,7 +580,7 @@ class Edition():
 
  
     
-    #newData={'0 Desde':"",'1Hasta':"",'2 Segmento':"",	'3 Unidad':""	,'4 Cliente':"", '5 CP':"",	'6 Consigna':"",	'7 Folio Manhattan':"",
+    #newData={'0 Desde':"",'1Hasta':"",'2 Segmento':"",	'3 Unidad':""	,'4 Cliente':"", '5 Carta porte':"",	'6 Consigna':"",	'7 Folio Manhattan':"",
      # '8 Estatus de la evidencia':"hi",	'9 Responsable':"", '10 Estatus':"", '11 Importe':"",	'12 Situación':"",'13 Fecha de entrega de liquidación':"", 
      # '14 Seguimiento con:':"",	'15 Que se necesita como apoyo por parte de Herdez?':"", '16 Seguimiento Herdez':	"",
       #'17 Comentarios por parte de Herdez':"",	'18 seguimiento  l5':"", '19 Descuento':"", '20 Dias trascurridos':"", '21 Clasificacion de dias en proceso':"",
@@ -616,7 +634,7 @@ class Select():
       dt=o.retunrData()
       print(dt)
       i=captu.inputData()
-      e=writer(i,dt,"prueba")
+      e=Writer(i,dt,"prueba")
       e.writeNewData()
     elif processLog==2:
       fi=File("prueba")
@@ -637,20 +655,22 @@ class Select():
 class Converter():
   
   def converInt(self,date):
-      listDate=[]
-      listDate.append(int(date[0:2]))
-      listDate.append(int(date[3:5]))
-      listDate.append(int(date[6:10]))
+      #listDate=[]
+      #listDate.append(int(date[0:2]))
+      #listDate.append(int(date[3:5]))
+      #listDate.append(int(date[6:10]))
+      fecha_cadena=datetime.strptime(str(date),'%d/%m/%Y')
+      fecha_cadena=datetime.strftime(fecha_cadena.date(),'%d/%m/%Y')
 
-      return listDate
+      return fecha_cadena
 
 
 class Formula():
 
   def formHasta(self,dateU):
     i=Converter()
-    datehas=i.converInt(dateU)
-    U=date(datehas[2],datehas[1], datehas[0])
+    fecha_cadena=i.converInt(dateU)
+    U=date(fecha_cadena)
 
     dateHasta = U + timedelta(days=6)
     dateHasta = dateHasta.strftime('%d/%m/%Y')
@@ -660,11 +680,23 @@ class Formula():
   def formDiasTrans(self,dataTrans):
     i=Converter()
     datehas=i.converInt(dataTrans)
-    dataTrans=date(datehas[2],datehas[1], datehas[0])
+    dataTrans=datetime.strptime(datehas,'%d/%m/%Y')
     today = date.today()
-    remaining_days = (today-dataTrans).days
+    remaining_days = (today-dataTrans.date()).days
     return remaining_days
-    
+  
+  def diasTrans(self):
+    o=File("prueba")
+    dataTrans=o.retunrData()
+ # make sure indexes pair with number of rows
+
+    for index, row in dataTrans.iterrows():
+      if row ['Estatus'] !="Recuperada - Liquidada":
+        row['Dias trascurridos'] = str(self.formDiasTrans(str(row['Hasta'])))
+        row['Clasificacion de dias en proceso'] = str(self.ClasDiasProceso(row['Dias trascurridos']))
+
+    writeOdj= Writer(dataFrame=dataTrans,name="prueba")
+    writeOdj.writeNewData()
 
   def ClasDiasProceso(self,diasTrans):
     if(int(diasTrans)>=51):
@@ -696,19 +728,18 @@ class Formula():
     
    
     if estatus=="Recuperada - Liquidada":
-    today = datetime.now()
-    todayPay=datetime.strptime(str(today.date()),'%Y-%m-%d')
-    todayPay=datetime.strftime(today.date(),'%d/%m/%Y')
+      today = datetime.now()
+      todayPay=datetime.strptime(str(today.date()),'%Y-%m-%d')
+      todayPay=datetime.strftime(today.date(),'%d/%m/%Y')
 
-    print ("Se liquido el día: ",todayPay)
-
-  
-
+      print ("Se liquido el día: ",todayPay)
+      
     
-
+    else:
+      todayPay=""
     
+    return todayPay
 
-  
 
 
 class Capturador():
@@ -732,7 +763,7 @@ class Capturador():
       impor=Importe()
       herdezObj=Herdez()
 
-      newData={'Desde':"",'Hasta':"",'Segmento':"",	'Unidad':""	,'Cliente':"", 'CP':"",	'Consigna':"",	'Folio Manhattan':"",
+      newData={'Desde':"",'Hasta':"",'Segmento':"",	'Unidad':""	,'Cliente':"", 'Carta porte':"",	'Consigna':"",	'Folio Manhattan':"",
       'Estatus de la evidencia':"hi",	'Responsable':"", 'Estatus':"", 'Importe':"",	'Situación':"",'Fecha de entrega de liquidación':"", 
       'Seguimiento con:':"",	'Que se necesita como apoyo por parte de Herdez?':"", 'Seguimiento Herdez':	"",
       'Comentarios por parte de Herdez':"",	'seguimiento  l5':"", 'Descuento':"", 'Dias trascurridos':"", 'Clasificacion de dias en proceso':"",
@@ -795,11 +826,8 @@ class Capturador():
 
 
 
-      
-
-
-class writer():
-  def __init__(self, newDa,dataFrame,name):
+class Writer():
+  def __init__(self, newDa={},dataFrame={},name=""):
      self.newDa=newDa
      self.dataFrame=dataFrame
      self.name=name
@@ -812,9 +840,11 @@ class writer():
     
     self.dataFrame = self.dataFrame.fillna('')
     
+    if  (not self.newDa):
+      pass
 
-    
-    self.dataFrame=self.dataFrame.append(self.newDa, ignore_index=True)
+    else: 
+      self.dataFrame=self.dataFrame.append(self.newDa, ignore_index=True)
     print(self.dataFrame)
    
     self.dataFrame.reset_index(drop=True, inplace=True)

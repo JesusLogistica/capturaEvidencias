@@ -88,10 +88,32 @@ if (fecha < today):
 
 else:
     print("No se liquido")'''
-estatus="Recuperada - Liquidada"
+'''estatus="Recuperada - Liquidada"
 if estatus=="Recuperada - Liquidada":
     today = datetime.now()
     todayPay=datetime.strptime(str(today.date()),'%Y-%m-%d')
     todayPay=datetime.strftime(today.date(),'%d/%m/%Y')
 
     print ("Se liquido el día: ",todayPay)
+'''
+'''
+import pandas as pd
+import numpy    as np
+df2 = pd.DataFrame(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
+        columns=['a', 'b', 'c'])
+
+print (df2.head())
+
+v=df2.loc[0]
+
+print (v)
+lis=[]
+lis=v.iloc[1]
+print (lis)
+print("sd")'''
+test_dict={"sis":""}
+if (not test_dict):
+    print("vacio")
+
+else: 
+    print("no vacio")
